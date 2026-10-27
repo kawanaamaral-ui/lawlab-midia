@@ -149,10 +149,6 @@ footer a{color:var(--white)}
 <style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
 </head>
 <body>
-
-
-
-
 <header>
   <div class="inner">
     <a class="logo" href="#topo" aria-label="Feed Fácil, início"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i class="o"></i></span>FEED FÁCIL</a>
@@ -249,7 +245,7 @@ footer a{color:var(--white)}
       <div class="stack"><span class="eyebrow">Dúvidas</span><h2 id="h-duvidas">Perguntas <b>frequentes</b></h2></div>
       <div class="faq">
         <details><summary>Tem fidelidade?</summary><p class="muted-l">Não. Você pode cancelar quando quiser, pelo WhatsApp. O cancelamento vale para as próximas cobranças e o ciclo já pago é entregue normalmente.</p></details>
-        <details><summary>Como e quando sou cobrado?</summary><p class="muted-l">A assinatura é cobrada no cartão de crédito todo mês, na mesma data em que você assinou. Na Black November, o 1º mês sai com 50% de desconto e do 2º mês em diante vale o preço normal do plano.</p></details>
+        <details><summary>Como e quando sou cobrado?</summary><p class="muted-l">A assinatura é cobrada no cartão de crédito todo mês, na mesma data em que você assinou. Na Black November, você paga o 1º mês com 50% de desconto por um link único e, no 2º mês, recebe o link da assinatura mensal com o preço normal.</p></details>
         <details><summary>O que preciso enviar?</summary><p class="muted-l">As fotos e os textos de cada arte do mês, pelo WhatsApp ou numa pasta compartilhada. O prazo de 48h úteis começa quando o conteúdo completo chega.</p></details>
         <details><summary>Vocês postam no meu Instagram?</summary><p class="muted-l">Não. Entregamos as artes prontas e você publica quando quiser. Não pedimos sua senha do Instagram.</p></details>
         <details><summary>E se eu não gostar de uma arte?</summary><p class="muted-l">Cada peça tem 1 rodada de ajustes incluída. Basta dizer o que mudar em até 7 dias depois da entrega.</p></details>
@@ -277,7 +273,7 @@ footer a{color:var(--white)}
           <div class="clause" id="c8"><h3><span>8</span>Direitos de uso e portfólio</h3><p>Após o pagamento, o Cliente pode usar as artes entregues livremente em seus canais. O conteúdo enviado pelo Cliente continua sendo dele. O Feed Fácil só exibe artes do Cliente em seu portfólio ou redes com autorização prévia. As artes podem ser produzidas com auxílio de ferramentas de inteligência artificial e são sempre revisadas antes da entrega.</p></div>
           <div class="clause" id="c9"><h3><span>9</span>Cancelamento</h3><ol><li>Não há fidelidade nem multa. O Cliente pode cancelar a qualquer momento pelo WhatsApp oficial do Feed Fácil.</li><li>O cancelamento impede as cobranças seguintes. O ciclo já pago é entregue normalmente, desde que o conteúdo seja enviado dentro dele.</li><li>Não há reembolso proporcional de ciclos já iniciados, salvo o previsto na cláusula 10.</li></ol></div>
           <div class="clause" id="c10"><h3><span>10</span>Direito de arrependimento</h3><p>Como a contratação é feita pela internet, o Cliente pode desistir em até 7 dias da primeira contratação, com devolução integral do valor pago, conforme o artigo 49 do Código de Defesa do Consumidor, quando aplicável.</p></div>
-          <div class="clause" id="c11"><h3><span>11</span>Promoções</h3><p>A Black November concede 50% de desconto apenas no 1º mês, para assinaturas feitas de 01/11/2026 a 30/11/2026, uma vez por CNPJ ou perfil. Do 2º mês em diante vale o preço normal do plano. Ofertas de retorno a ex-clientes podem ser concedidas uma única vez.</p></div>
+          <div class="clause" id="c11"><h3><span>11</span>Promoções</h3><p>A Black November concede 50% de desconto apenas no 1º mês, para assinaturas feitas de 01/11/2026 a 30/11/2026, uma vez por CNPJ ou perfil. O 1º mês promocional é pago por link de pagamento avulso, e a cobrança recorrente no cartão, com o preço normal do plano, começa no 2º mês, mediante envio do link da assinatura ao Cliente. Ofertas de retorno a ex-clientes podem ser concedidas uma única vez.</p></div>
           <div class="clause" id="c12"><h3><span>12</span>Dados pessoais</h3><p>O Feed Fácil usa nome, contato e dados de pagamento apenas para prestar o serviço, cobrar e se comunicar com o Cliente, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018). Os dados do cartão são tratados pela InfinitePay e não ficam armazenados pelo Feed Fácil. O Cliente pode pedir a exclusão dos seus dados pelo WhatsApp.</p></div>
           <div class="clause" id="c13"><h3><span>13</span>Alterações</h3><p>Preços e condições podem mudar com aviso de pelo menos 30 dias pelo WhatsApp. Se não concordar, o Cliente pode cancelar sem custo antes da nova cobrança.</p></div>
           <div class="clause" id="c14"><h3><span>14</span>Foro</h3><p>Fica eleito o foro do domicílio do Cliente para resolver qualquer questão relacionada a este termo.</p></div>
@@ -310,6 +306,11 @@ footer a{color:var(--white)}
 /* ===== CONFIGURAÇÃO: cole aqui os links da InfinitePay e o WhatsApp ===== */
 const CONFIG = {
   whatsapp: "",            // só números, com DDI e DDD. Ex.: "5548999999999"
+  linksPromo: {            // Black November: links AVULSOS do 1º mês (a InfinitePay não dá desconto só no 1º mês da recorrência)
+    iniciante:  "",        // R$ 29,50
+    manutencao: "",        // R$ 49,50
+    autoridade: ""         // R$ 64,50
+  },
   links: {
     iniciante:  "",        // link do plano recorrente Iniciante (R$ 59)
     manutencao: "",        // link do plano recorrente Manutenção (R$ 99)
@@ -321,7 +322,8 @@ const CONFIG = {
 /* ======================================================================= */
 (function(){
   const now = new Date();
-  if (now > new Date(CONFIG.promoAte + "T23:59:59-03:00")) document.querySelectorAll("[data-promo]").forEach(e => e.hidden = true);
+  const promoOn = now <= new Date(CONFIG.promoAte + "T23:59:59-03:00");
+  if (!promoOn) document.querySelectorAll("[data-promo]").forEach(e => e.hidden = true);
 
   const wa = CONFIG.whatsapp.replace(/\D/g, "");
   const waMsg = encodeURIComponent("Oi! Vi o site do Feed Fácil e quero uma arte de amostra grátis.");
@@ -341,7 +343,7 @@ const CONFIG = {
   const box = document.getElementById("acceptBox"), chk = document.getElementById("aceite"), notice = document.getElementById("notice");
   const names = { iniciante: "Iniciante", manutencao: "Manutenção", autoridade: "Autoridade", identidade: "Identidade visual" };
   document.querySelectorAll("[data-plan]").forEach(btn => {
-    const key = btn.dataset.plan, url = CONFIG.links[key];
+    const key = btn.dataset.plan, url = (promoOn && CONFIG.linksPromo[key]) || CONFIG.links[key];
     if (url) { btn.href = url; btn.target = "_blank"; btn.rel = "noopener"; }
     btn.addEventListener("click", e => {
       if (!chk.checked) {
@@ -362,6 +364,5 @@ const CONFIG = {
   chk.addEventListener("change", () => { if (chk.checked) notice.textContent = ""; });
 })();
 </script>
-
 </body>
 </html>
